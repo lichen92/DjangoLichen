@@ -4,7 +4,25 @@ from . import views
 
 urlpatterns = [
     url(r'^register/$', views.ttsx_zhuce),
-    url(r'^$',views.index),
+    url(r'^$', views.center),
     url(r'^login/$', views.ttsx_denglud),
     url(r'^loginz/$', views.ttsx_dengluz),
+    url(r'^register_valid/$', views.register_valid),
+    url(r'^login_handle/$', views.login_handle),
+    url(r'^site/$', views.site),
+    url(r'^order/$', views.order),
+    url(r'^index/$', views.index),
 ]
+
+
+
+# urlpatterns = [
+#     url(r'^user/register/$', views.ttsx_zhuce),
+#     url(r'^user/$',views.center),
+#     url(r'^user/login/$', views.ttsx_denglud),
+#     url(r'^user/loginz/$', views.ttsx_dengluz),
+#     url(r'^user/register_valid/$',views.register_valid),
+#     url(r'^user/login_handle/$',views.login_handle),
+#     url(r'^user/site/$',views.site),
+#     url(r'^user/order/$',views.order),
+# ]
