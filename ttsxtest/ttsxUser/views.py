@@ -7,14 +7,18 @@ import datetime
 # Create your views here.
 
 
+def yanzheng(func):
+    context = {}
+    def f1(request,*args,**kwargs):
+        if request.session.has_key('user_id'):
+            # print request.session.has_key('user_id')
+            return func(request,*args,**kwargs)
+        else:
+            return redirect('/user/login/')
+    return f1
 def ttsx_zhuce(request):
     context = {'title':'注册', 'num':'0'}
     return render(request, 'ttsxUser/register.html', context)
-
-
-def index(request):
-    context = {'num_index':'2', 'num':'0'}
-    return render(request, 'ttsxUser/index.html', context)
 
 
 def ttsx_dengluz(request):
@@ -61,7 +65,13 @@ def login_handle(request):
         return render(request, 'ttsxUser/login.html',context)
     else:
         if users[0].user_pwd == pwd_sha1:#登陆成功
-            response = redirect('/user/')
+            request.session['user_id'] = users[0].id
+            request.session['user_name'] = username
+            request.session.set_expiry(0)
+            print '============'
+            print request.session['url_path']
+            print '============'
+            response = redirect(request.session['url_path'])#request.session['url_path']
             if uname_jz == '1':
                 response.set_cookie('username', username, expires=datetime.datetime.now()+datetime.timedelta(days = 7))
             else:
@@ -72,17 +82,38 @@ def login_handle(request):
             return render(request, 'ttsxUser/login.html', context)
 
 
+def logout(request):
+    request.session.set_expiry(-1)
+    return redirect('/user/login')
+
+
+@yanzheng
 def center(request):
-    context = {'title': '用户中心'}
+    user = UserInfo.objects.get(id=request.session['user_id'])
+    context = {'title': '用户中心', 'user':user}
     return render(request, 'ttsxUser/center.html', context)
 
 
+@yanzheng
 def site(request):
-    context = {'title': '用户中心'}
+    user = UserInfo.objects.get(id=request.session['user_id'])
+    context = {'title': '用户中心', 'user':user}
+    if request.method == 'POST':
+        post = request.POST
+        user.user_sjr = post.get('user_sjr')
+        user.user_addr = post.get('user_addr')
+        user.user_postcode = post.get('user_postcode')
+        user.user_phone_number = post.get('user_phonenumber')
+        user.save()
     return render(request, 'ttsxUser/site.html', context)
 
 
+@yanzheng
 def order(request):
     context = {'title': '用户中心'}
     return render(request, 'ttsxUser/order.html', context)
 
+
+def cart(request):
+    context = {}
+    return render(request,'ttsxUser/cart.html',context)
