@@ -68,9 +68,9 @@ def login_handle(request):
             request.session['user_id'] = users[0].id
             request.session['user_name'] = username
             request.session.set_expiry(0)
-            print '============'
-            print request.session['url_path']
-            print '============'
+            # print '============'
+            # print request.session['url_path']
+            # print '============'
             response = redirect(request.session['url_path'])#request.session['url_path']
             if uname_jz == '1':
                 response.set_cookie('username', username, expires=datetime.datetime.now()+datetime.timedelta(days = 7))
