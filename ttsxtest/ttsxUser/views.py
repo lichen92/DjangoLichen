@@ -7,6 +7,7 @@ import datetime
 # Create your views here.
 
 
+
 def yanzheng(func):
     context = {}
     def f1(request,*args,**kwargs):
