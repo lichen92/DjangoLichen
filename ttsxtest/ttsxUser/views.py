@@ -4,6 +4,7 @@ from models import *
 import hashlib
 from django.http import JsonResponse
 import datetime
+from ttsx_goods.models import *
 # Create your views here.
 
 
@@ -90,8 +91,17 @@ def logout(request):
 
 @yanzheng
 def center(request):
+    goods_id = request.COOKIES.get('goods_id')
+    id_list = goods_id.split(',')
+    # print goods_list
+    goods_list = []
+    for id1 in id_list:
+        print id1
+        print GoodsInfo
+        goods = GoodsInfo.objects.get(id=id1)
+        goods_list.append(goods)
     user = UserInfo.objects.get(id=request.session['user_id'])
-    context = {'title': '用户中心', 'user':user}
+    context = {'title': '用户中心', 'user':user,'goods_list':goods_list}
     return render(request, 'ttsxUser/center.html', context)
 
 

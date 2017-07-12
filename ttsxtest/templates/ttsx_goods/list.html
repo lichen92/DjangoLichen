@@ -1,33 +1,19 @@
 {%extends 'ttsx_goods/base.html'%}
 
-{%block goods%}
+{%block head%}
 	<div class="breadcrumb">
 		<a href="#">全部分类</a>
 		<span>></span>
 		<a href="#">{{t1.ttitle}}</a>
 	</div>
-
-	<div class="main_wrap clearfix">
-		<div class="l_wrap fl clearfix">
-			<div class="new_goods">
-				<h3>新品推荐</h3>
-				<ul>
-					{%for new in new_list%}
-					<li>
-						<a href="/detail{{new.id}}/"><img src="/static/{{new.gpic}}/"></a>
-						<h4><a href="/detail{{new.id}}/">{{new.gtitle}}</a></h4>
-						<div class="prize">￥{{new.gtitle}}</div>
-					</li>
-					{%endfor%}
-				</ul>
-			</div>
-		</div>
+{%endblock head%}
+{%block right%}
 
 		<div class="r_wrap fr clearfix">
 			<div class="sort_bar">
-				<a href="#" class="active">默认</a>
-				<a href="#">价格</a>
-				<a href="#">人气</a>
+				<a href="/list{{t1.id}}_1_1/" {%if num2 == 1%}class="active"{%endif%}>默认</a>
+				<a href="/list{{t1.id}}_1_2/?desc={%if desc == '1'%}0{%else%}1{%endif%}" {%if num2 == 2%}class="active"{%endif%}>价格</a>
+				<a href="/list{{t1.id}}_1_3/" {%if num2 == 3%}class="active"{%endif%}>人气</a>
 			</div>
 
 			<ul class="goods_type_list clearfix">
@@ -45,17 +31,53 @@
 			</ul>
 
 			<div class="pagenation">
+
 				{%if page.has_previous%}
-				<a href="/list{{t1.id}}_{{page.number|add:-1}}/"><上一页</a>
+				<a href="/list{{t1.id}}_1_{{num2}}/?desc={{desc}}">首页</a>
+				<a href="/list{{t1.id}}_{{page.number|add:-1}}_{{num2}}/?desc={{desc}}"><上一页</a>
 				{%endif%}
-				{%for pindex in paginator.page_range%}
-				<a href="/list{{t1.id}}_{{pindex}}/" {%if page.number == pindex%}class="active"{%endif%}>{{pindex}}</a>
-				{%endfor%}
+				{%if paginator.num_pages < 6%}
+					{%for pindex in paginator.page_range%}
+					<a href="/list{{t1.id}}_{{pindex}}_{{num2}}/?desc={{desc}}" {%if page.number == pindex%}class="active"{%endif%}>{{pindex}}</a>
+					{%endfor%}
+
+				{%else%}
+					{%if page.number == 1%}
+					<a href="#" class="active">1</a>
+					<a href="/list{{t1.id}}_2_{{num2}}/?desc={{desc}}">2</a>
+					<a href="/list{{t1.id}}_3_{{num2}}/?desc={{desc}}">3</a>
+					<a href="/list{{t1.id}}_4_{{num2}}/?desc={{desc}}">4</a>
+					<a href="/list{{t1.id}}_5_{{num2}}/?desc={{desc}}">5</a>
+					{%elif page.number == 2%}
+					<a href="/list{{t1.id}}_1_{{num2}}/?desc={{desc}}">1</a>
+					<a href="#" class="active">2</a>
+					<a href="/list{{t1.id}}_3_{{num2}}/?desc={{desc}}">3</a>
+					<a href="/list{{t1.id}}_4_{{num2}}/?desc={{desc}}">4</a>
+					<a href="/list{{t1.id}}_5_{{num2}}/?desc={{desc}}">5</a>
+					{%elif page.number == paginator.num_pages|add:-1%}
+					<a href="/list{{t1.id}}_{{paginator.num_pages|add:-4}}_{{num2}}/?desc={{desc}}">{{paginator.num_pages|add:-4}}</a>
+					<a href="/list{{t1.id}}_{{paginator.num_pages|add:-3}}_{{num2}}/?desc={{desc}}">{{paginator.num_pages|add:-3}}</a>
+					<a href="/list{{t1.id}}_{{paginator.num_pages|add:-2}}_{{num2}}/?desc={{desc}}">{{paginator.num_pages|add:-2}}</a>
+					<a href="/list{{t1.id}}_{{paginator.num_pages|add:-1}}_{{num2}}/?desc={{desc}}">{{paginator.num_pages|add:-1}}</a>
+					<a href="#" class="active">{{paginator.num_pages}}</a>
+					{%elif page.number == paginator.num_pages%}
+					<a href="/list{{t1.id}}_{{paginator.num_pages|add:-4}}_{{num2}}/?desc={{desc}}">{{paginator.num_pages|add:-4}}</a>
+					<a href="/list{{t1.id}}_{{paginator.num_pages|add:-3}}_{{num2}}/?desc={{desc}}">{{paginator.num_pages|add:-3}}</a>
+					<a href="/list{{t1.id}}_{{paginator.num_pages|add:-2}}_{{num2}}/?desc={{desc}}">{{paginator.num_pages|add:-2}}</a>
+					<a href="#" class="active">{{paginator.num_pages|add:-1}}</a>
+					<a href="/list{{t1.id}}_{{paginator.num_pages}}_{{num2}}/?desc={{desc}}">{{paginator.num_pages}}</a>
+					{%else%}
+					<a href="/list{{t1.id}}_{{page.number|add:-2}}_{{num2}}/?desc={{desc}}">{{page.number|add:-2}}</a>
+					<a href="/list{{t1.id}}_{{page.number|add:-1}}_{{num2}}/?desc={{desc}}">{{page.number|add:-1}}</a>
+					<a href="#" class="active">{{page.number}}</a>
+					<a href="/list{{t1.id}}_{{page.number|add:+1}}_{{num2}}/?desc={{desc}}">{{page.number|add:+1}}</a>
+					<a href="/list{{t1.id}}_{{page.number|add:+2}}_{{num2}}/?desc={{desc}}">{{page.number|add:+2}}</a>
+					{%endif%}
+				{%endif%}
 				{%if page.has_next%}
-				<a href="/list{{t1.id}}_{{page.number|add:1}}/">下一页></a>
+				<a href="/list{{t1.id}}_{{page.number|add:1}}_{{num2}}/?desc={{desc}}">下一页></a>
+				<a href="/list{{t1.id}}_{{paginator.num_pages}}_{{num2}}/?desc={{desc}}">末页</a>
 				{%endif%}
 			</div>
 		</div>
-	</div>
-
-{%endblock goods%}
+{%endblock right%}

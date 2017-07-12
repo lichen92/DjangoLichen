@@ -1,16 +1,15 @@
 {%extends 'ttsx_goods/base.html'%}
 
-{%block goods%}
-
-
+{%block head%}
 	<div class="breadcrumb">
 		<a href="#">全部分类</a>
 		<span>></span>
-		<a href="#">新鲜水果</a>
+		<a href="#">{{goods.gtype}}</a>
 		<span>></span>
 		<a href="#">商品详情</a>
 	</div>
-
+{%endblock head%}
+{%block detail%}
 	<div class="goods_detail_con clearfix">
 		<div class="goods_detail_pic fl"><img src="/static/{{goods.gpic}}"></div>
 
@@ -37,23 +36,9 @@
 			</div>
 		</div>
 	</div>
+{%endblock detail%}
 
-	<div class="main_wrap clearfix">
-		<div class="l_wrap fl clearfix">
-			<div class="new_goods">
-				<h3>新品推荐</h3>
-				<ul>
-					{%for new_goods in new_list%}
-					<li>
-						<a href="#"><img src="/static/{{new_goods.gpic}}/"></a>
-						<h4><a href="#">{{new_goods.gtitle}}</a></h4>
-						<div class="prize">￥{{new_goods.gprice}}</div>
-					</li>
-					{%endfor%}
-				</ul>
-			</div>
-		</div>
-
+{%block right%}
 		<div class="r_wrap fr clearfix">
 			<ul class="detail_tab clearfix">
 				<li class="active">商品介绍</li>
@@ -68,9 +53,8 @@
 			</div>
 
 		</div>
-	</div>
-
-
+{%endblock right%}
+{%block rjs%}
 	<script type="text/javascript">
 		var $add_x = $('#add_cart').offset().top;
 		var $add_y = $('#add_cart').offset().left;
@@ -121,4 +105,4 @@
         });
 
 	</script>
-{%endblock goods%}
+{%endblock rjs%}
