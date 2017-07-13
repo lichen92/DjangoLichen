@@ -84,6 +84,13 @@ def login_handle(request):
             return render(request, 'ttsxUser/login.html', context)
 
 
+def islogin(request):
+    if request.session.has_key('user_id'):
+        return JsonResponse({'gnum':1})
+    else:
+        return JsonResponse({'gnum':0})
+
+
 def logout(request):
     request.session.set_expiry(-1)
     return redirect('/user/login')

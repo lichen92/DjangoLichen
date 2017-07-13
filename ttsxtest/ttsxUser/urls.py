@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^order/$', views.order),
     url(r'^card/$', views.cart),
     url(r'^logout', views.logout),
+    url(r'^islogin', views.islogin),
     ]
 
